@@ -18,7 +18,7 @@ public class PropertyPredictor {
 
     public static void main(String[] args) {
 
-        String dataPathFull = "data/pp-complete---.csv";
+        String dataPathFull = "data/pp-complete.csv";
         String dataPathSample = "data/pp-sample.csv";
 
         String dataUrl = "http://prod1.publicdata.landregistry.gov.uk.s3-website-eu-west-1" +
