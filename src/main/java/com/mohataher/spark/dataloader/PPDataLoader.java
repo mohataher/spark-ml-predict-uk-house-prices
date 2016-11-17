@@ -21,11 +21,10 @@ public class PPDataLoader implements Serializable{
     final transient static Logger logger = Logger.getLogger(PPDataLoader.class);
 
 
-    private String dataPathFull = "data/pp-complete.csv";
-    private String dataPathSample = "data/pp-sample.csv";
+    private String dataPathFull;
+    private String dataPathSample;
 
-    private String dataUrl = "http://prod1.publicdata.landregistry.gov.uk.s3-website-eu-west-1" +
-            ".amazonaws.com/pp-complete.csv";
+    private String dataUrl;
     private static final int connectionTimeout=10* 1000;
     private static final int readTimeout=10* 1000;
 
