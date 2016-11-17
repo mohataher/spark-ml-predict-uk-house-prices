@@ -7,6 +7,7 @@ package com.mohataher.spark;
 import com.mohataher.spark.dataloader.PPDataLoader;
 
 import com.mohataher.spark.model.PPModelTrainer;
+import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -16,9 +17,11 @@ import org.apache.spark.mllib.tree.model.DecisionTreeModel;
 
 public class PropertyPredictor {
 
+    final transient static Logger logger = Logger.getLogger(PropertyPredictor.class);
+
     public static void main(String[] args) {
 
-        String dataPathFull = "data/pp-complete.csv";
+        String dataPathFull = "data/pp-sample.csv";
         String dataPathSample = "data/pp-sample.csv";
 
         String dataUrl = "http://prod1.publicdata.landregistry.gov.uk.s3-website-eu-west-1" +
@@ -50,8 +53,10 @@ public class PropertyPredictor {
 
         Double testMSE = pModelTrainer.testMSE(data, model, predictionAndLabel);
 
-        System.out.println("Test Mean Squared Error: " + testMSE);
-        System.out.println("Learned regression tree model:\n" + model.toDebugString());
+        logger.info("Test Mean Squared Error: " + testMSE);
+        logger.info("Learned regression tree model:\n" + model.toDebugString());
+
+        model.save(jsc.sc(), "myDecisionTreeRegressionModel");
 
     }
 
