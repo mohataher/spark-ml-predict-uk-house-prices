@@ -10,14 +10,16 @@ import org.apache.spark.mllib.tree.DecisionTree;
 import org.apache.spark.mllib.tree.model.DecisionTreeModel;
 import scala.Tuple2;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by bsmtaa on 17/11/2016.
  */
-public class PPModelTrainer {
-    public static void testMSE(JavaRDD<LabeledPoint> data, DecisionTreeModel model, JavaPairRDD<Double, Double> predictionAndLabel) {
+public class PPModelTrainer implements Serializable{
+
+    public Double testMSE(JavaRDD<LabeledPoint> data, DecisionTreeModel model, JavaPairRDD<Double, Double> predictionAndLabel) {
         Double testMSE =
                 predictionAndLabel.map(new Function<Tuple2<Double, Double>, Double>() {
                     @Override
@@ -31,11 +33,16 @@ public class PPModelTrainer {
                         return a + b;
                     }
                 }) / data.count();
-        System.out.println("Test Mean Squared Error: " + testMSE);
-        System.out.println("Learned regression tree model:\n" + model.toDebugString());
+        return testMSE;
     }
 
-    public static JavaPairRDD<Double, Double> testModel(JavaRDD<LabeledPoint> testData, final DecisionTreeModel model) {
+    /**
+     * Tests the model
+     * @param testData
+     * @param model the model used to predict the test the data
+     * @return {@link JavaPairRDD} with the results of the test
+     */
+    public JavaPairRDD<Double, Double> testModel(JavaRDD<LabeledPoint> testData, final DecisionTreeModel model) {
         // Evaluate model on test instances and compute test error
         return testData.mapToPair(new PairFunction<LabeledPoint, Double, Double>() {
             public Tuple2<Double, Double> call(LabeledPoint p) {
@@ -44,7 +51,12 @@ public class PPModelTrainer {
         });
     }
 
-    public static DecisionTreeModel trainModel(JavaRDD<LabeledPoint> trainingData) {
+    /**
+     *Train the model
+     * @param trainingData training data
+     * @return The decision tree created by the training routine.
+     */
+    public DecisionTreeModel trainModel(JavaRDD<LabeledPoint> trainingData) {
         // Set parameters.
         // Empty categoricalFeaturesInfo indicates all features are continuous.
         Map<Integer, Integer> categoricalFeaturesInfo = new HashMap<>();
