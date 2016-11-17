@@ -24,7 +24,7 @@ Feature 2: Indicates the duration of tenture.
 ```
 Relates to the tenure: 0 = Freehold, 1= Leasehold, 2 = Unknown?.
 ```
-It's worth noting that `U` value exists in the data set but wasn't documented.
+It's worth noting that `U` value exists in the data set but wasn't documented by the data provider.
 
 Learned regression tree model:
 ```
@@ -99,8 +99,6 @@ mvn exec:java
 
 This repo is released under the Apache 2.0 license.
 ```
-Copyright 2008 Google Inc.
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
